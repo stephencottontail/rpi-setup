@@ -1,0 +1,24 @@
+{
+  "name": "cloud-init",
+  "version": "0.1.0",
+  "description": "Bootstraps a Pi with Tailscale",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/stephencottontail/rpi-setup.git"
+  },
+  "keywords": [
+    "pi",
+    "bootstrap",
+    "tailscale"
+  ],
+  "author": "Stephen Dickinson <stephencottontail@me.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/stephencottontail/rpi-setup/issues"
+  },
+  "homepage": "https://github.com/stephencottontail/rpi-setup#readme"
+}
