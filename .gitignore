@@ -1,1 +1,4 @@
 **/*.cache
+
+cloud-init/node_modules
+cloud-init/_modules/**
