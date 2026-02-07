@@ -3,53 +3,47 @@ import prompts from 'prompts'
 
 const timeZones = Intl.supportedValuesOf('timeZone')
 const options = [
-//  {
-//    name: 'dryRun',
-//    parameter: '-D, --dry-run',
-//    description: 'display what would have been written',
-//    question: 'Perform a dry run?',
-//    default: false,
-//    choices: [
-//      {
-//        name: 'Yes',
-//        value: true,
-//      },
-//      {
-//        name: 'No',
-//        value: false,
-//      },
-//    ],
-//    prompt: select
-//  },
-//  {
-//    name: 'file',
-//    parameter: '-F, --file <string',
-//    description: 'file name to write to',
-//    question: 'Enter file to save to:',
-//    default: 'cloud-init.yml',
-//    prompt: input
-//  },
-//  {
-//    name: 'hostname',
-//    parameter: '-H, --hostname <string>',
-//    description: 'hostname for the Pi',
-//    question: 'Enter hostname:',
-//    prompt: input
-//  },
-//  {
-//    name:  'user',
-//    parameter: '-U, --user <string>',
-//    description: 'unprivileged user name',
-//    question: 'Enter unprivileged user:',
-//    prompt: input,
-//  },
-//  {
-//    name:  'userPassword',
-//    parameter: '-P, --user-password <string>',
-//    description: 'unprivileged user password',
-//    question: 'Enter password for unprivileged user:',
-//    prompt: password,
-//  },
+  {
+    type: 'toggle',
+    name: 'dryRun',
+    parameter: '-D, --dry-run',
+    description: 'display what would have been written',
+    message: 'Perform a dry run?',
+    initial: true,
+    active: 'yes',
+    inactive: 'no',
+  },
+  {
+    type: 'text',
+    name: 'file',
+    parameter: '-F, --file <string',
+    description: 'file name to write to',
+    message: 'Enter file to save to:',
+    initial: 'cloud-init.yml',
+  },
+  {
+    type: 'text',
+    name: 'hostname',
+    parameter: '-H, --hostname <string>',
+    description: 'hostname for the Pi',
+    message: 'Enter hostname:',
+    initial: '',
+  },
+  {
+    type: 'text',
+    name:  'user',
+    parameter: '-U, --user <string>',
+    description: 'unprivileged user name',
+    message: 'Enter unprivileged username:',
+    initial: '',
+  },
+  {
+    type: 'password',
+    name:  'userPassword',
+    parameter: '-P, --user-password <string>',
+    description: 'unprivileged user password',
+    message: 'Enter password for unprivileged user:',
+  },
   {
     type: 'toggle',
     name: 'useWireless',
