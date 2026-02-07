@@ -1,5 +1,6 @@
 import { program, Option } from 'commander'
 import prompts from 'prompts'
+import createFuzzySearch from '@nozbe/microfuzz'
 
 const timeZones = Intl.supportedValuesOf('timeZone')
 const options = [
@@ -28,6 +29,25 @@ const options = [
     description: 'hostname for the Pi',
     message: 'Enter hostname:',
     initial: '',
+  },
+  {
+    type: 'autocomplete',
+    name: 'timeZone',
+    parameter: '-Z, --time-zone <string>',
+    description: 'timezone',
+    message: 'Enter your timezone:',
+    initial: '',
+    choices: timeZones,
+    suggest: (input, choices ) => {
+      const fuzzySearch = createFuzzySearch.default(choices, { strategy: 'aggressive' })
+      const results = fuzzySearch(input)
+      const output = results.map((result) => {
+        return result.item
+      })
+      
+      return Promise.resolve(output)
+    },
+    validate: value => timeZones.includes(value),
   },
   {
     type: 'text',

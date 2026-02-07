@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/stephencottontail/rpi-setup#readme",
   "dependencies": {
+    "@nozbe/microfuzz": "^1.0.0",
     "commander": "^14.0.3",
     "prompts": "^2.4.2"
   }
