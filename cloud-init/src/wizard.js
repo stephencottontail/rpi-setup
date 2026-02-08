@@ -77,7 +77,7 @@ const options = [
     name:  'userPassword',
     parameter: '-P, --user-password <string>',
     description: 'unprivileged user password',
-    message: 'Enter password for unprivileged user:',
+    message: (prev, values) => `Enter password for ${values.user}:`,
   },
   {
     type: 'text',
@@ -138,7 +138,7 @@ const options = [
     name:  'ssidPassword',
     parameter: '-W, --ssid-password <string',
     description: 'password for wireless network',
-    message: 'Password for wireless network:',
+    message: (prev, values) => `Password for wireless network "${values.ssid}":`,
   },
   {
     type: (prev, values) => values.useWireless === true && values.useStatic === true ? 'text' : null,
