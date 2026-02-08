@@ -2,6 +2,12 @@ import { program, Option } from 'commander'
 import prompts from 'prompts'
 import createFuzzySearch from '@nozbe/microfuzz'
 
+const validateIP = (input) => {
+  const re = /\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}(\d{1,3})?/
+
+  return re.test(input) ? true : 'error'
+}
+
 const timeZones = Intl.supportedValuesOf('timeZone')
 const options = [
   {
@@ -28,7 +34,7 @@ const options = [
     parameter: '-H, --hostname <string>',
     description: 'hostname for the Pi',
     message: 'Enter hostname:',
-    initial: '',
+    initial: 'raspberrypi',
   },
   {
     type: 'autocomplete',
@@ -55,7 +61,7 @@ const options = [
     parameter: '-U, --user <string>',
     description: 'unprivileged user name',
     message: 'Enter unprivileged username:',
-    initial: '',
+    initial: 'pi',
   },
   {
     type: 'password',
@@ -63,6 +69,35 @@ const options = [
     parameter: '-P, --user-password <string>',
     description: 'unprivileged user password',
     message: 'Enter password for unprivileged user:',
+  },
+  {
+    type: 'toggle',
+    name: 'useStatic',
+    message: 'Set a static IP address?',
+    initial: true,
+    active: 'yes',
+    inactive: 'no',
+  },
+  {
+    type: (prev, values) => values.useStatic === true ? 'text' : null,
+    name: 'ethernetIP',
+    message: 'IP address (with subnet mask in CIDR notation):',
+    initial: '',
+    validate: validateIP,
+  },
+  {
+    type: (prev, values) => values.useStatic === true ? 'text' : null,
+    name: 'router',
+    message: 'Router:',
+    initial: '',
+    validate: validateIP,
+  },
+  {
+    type: (prev, values) => values.useStatic === true ? 'text' : null,
+    name: 'nameservers',
+    message: 'DNS server:',
+    initial: '',
+    validate: validateIP,
   },
   {
     type: 'toggle',
@@ -86,6 +121,13 @@ const options = [
     parameter: '-W, --ssid-password <string',
     description: 'password for wireless network',
     message: 'Password for wireless network:',
+  },
+  {
+    type: (prev, values) => values.useWireless === true && values.useStatic === true ? 'text' : null,
+    name: 'wirelessIP',
+    message: 'IP address for wireless connection (with subnet mask in CIDR notation):',
+    initial: '',
+    validate: validateIP,
   },
 ]
 
