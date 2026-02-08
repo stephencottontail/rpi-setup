@@ -1,14 +1,16 @@
+import { encrypt } from 'unixcrypt'
+
 const mkPasswordBlock = (userPassword) => {
+  const lock_passwd = false
+  
   if (userPassword) {
-    const lock_passwd = true
-    const hashed_password = userPassword // TODO
+    const hashed_password = encrypt(userPassword, '$6$rounds=4096')
     const password = `
     lock_passwd: ${lock_passwd}
-    passwd: ${hashed_password}`
+    hashed_passwd: ${hashed_password}`
 
     return password
   } else {
-    const lock_passwd = false
     const password = `
     lock_passwd: ${lock_passwd}
 `
@@ -119,10 +121,11 @@ users:
     shell: /bin/bash
     ${mkPasswordBlock(userPassword)}
     ${mkAuthorizedKeysBlock(sshKey)}
-    sudo: ALL=(ALL)
+    sudo: ALL=(ALL) ALL
 
 enable_ssh: true
-ssh_pwauth: false`
+ssh_pwauth: false
+disable_root: true`
   const networkConfigBody = `
 network:
   version: 2
