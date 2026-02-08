@@ -1,7 +1,18 @@
 import { program, Option } from 'commander'
 import prompts from 'prompts'
 import createFuzzySearch from '@nozbe/microfuzz'
+import * as fs from 'node:fs'
+import { homedir } from 'node:os'
+import * as path from 'node:path'
 
+const validatePath = (input) => {
+  if (input.startsWith('~/')) {
+    input = path.join(homedir(), input.slice(2))
+  }
+
+  return fs.existsSync(input) || 'Please enter a valid path'
+}
+  
 const validateIP = (input) => {
   const re = /\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}(\d{1,3})?/
 
@@ -19,14 +30,6 @@ const options = [
     initial: true,
     active: 'yes',
     inactive: 'no',
-  },
-  {
-    type: 'text',
-    name: 'file',
-    parameter: '-F, --file <string',
-    description: 'file name to write to',
-    message: 'Enter file to save to:',
-    initial: 'cloud-init.yml',
   },
   {
     type: 'text',
@@ -69,6 +72,15 @@ const options = [
     parameter: '-P, --user-password <string>',
     description: 'unprivileged user password',
     message: 'Enter password for unprivileged user:',
+  },
+  {
+    type: 'text',
+    name: 'sshKey',
+    parameter: '-K, --ssh-key <string>',
+    description: 'SSH key to use',
+    message: 'Public SSH key:',
+    initial: '~/.ssh/id_ed25519.pub',
+    validate: validatePath,
   },
   {
     type: 'toggle',
