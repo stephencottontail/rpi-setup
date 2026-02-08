@@ -20,6 +20,12 @@ const validateIP = (input) => {
 }
 
 const timeZones = Intl.supportedValuesOf('timeZone')
+const prepareTimeZones = (timeZones) => {
+  return timeZones.map((zone) => {
+    return { title: zone, value: zone }
+  })
+}
+
 const options = [
   {
     type: 'toggle',
@@ -46,9 +52,9 @@ const options = [
     description: 'timezone',
     message: 'Enter your timezone:',
     initial: 'America/Denver',
-    choices: timeZones,
-    suggest: (input, choices ) => {
-      const fuzzySearch = createFuzzySearch.default(choices, { strategy: 'aggressive' })
+    choices: prepareTimeZones(timeZones),
+    suggest: (input, choices) => {
+      const fuzzySearch = createFuzzySearch.default(timeZones, { strategy: 'aggressive' })
       const results = fuzzySearch(input)
       const output = results.map((result) => {
         return result.item
