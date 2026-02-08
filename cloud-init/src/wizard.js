@@ -45,7 +45,7 @@ const options = [
     parameter: '-Z, --time-zone <string>',
     description: 'timezone',
     message: 'Enter your timezone:',
-    initial: '',
+    initial: 'America/Denver',
     choices: timeZones,
     suggest: (input, choices ) => {
       const fuzzySearch = createFuzzySearch.default(choices, { strategy: 'aggressive' })
