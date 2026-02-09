@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import wizard from './src/wizard.js'
 import generate from './src/generate.js'
 import * as fs from 'node:fs/promises'
