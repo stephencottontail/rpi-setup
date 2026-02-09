@@ -18,7 +18,7 @@ const mkPasswordBlock = (userPassword) => {
     const hashed_password = encrypt(userPassword, '$6$rounds=4096')
     const password = `
     lock_passwd: ${lock_passwd}
-    hashed_passwd: ${hashed_password}`
+    hashed_passwd: '${hashed_password}'`
 
     return password
   } else {
@@ -30,16 +30,10 @@ const mkPasswordBlock = (userPassword) => {
 }
 
 const mkAuthorizedKeysBlock = (sshKey) => {
-  const data = fs.readFileSync(mkAbsolutePath(sshKey), 'utf8', (err, data) => {
-    if (err) {
-      throw err
-    }
-
-    return data
-  })
+  const sshKeyContent = fs.readFileSync(mkAbsolutePath(sshKey), 'utf8')
   const ssh_authorized_keys = `
     ssh_authorized_keys:
-      - ${data}`
+      - '${sshKeyContent.replace(/(\r\n|\n|\r)+$/, '')}'`
 
   return ssh_authorized_keys
 }
@@ -139,10 +133,10 @@ const generate = (options) => {
   } = options;
   const userdataHeader = `#cloud-config`
   const userdataBody = `
-hostname: ${hostname}
+hostname: "${hostname}"
 manage_etc_hosts: true
 
-timezone: ${timeZone}
+timezone: "${timeZone}"
 
 users:
   - name: ${user}
