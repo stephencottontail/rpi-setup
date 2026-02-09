@@ -4,6 +4,12 @@ Bootstraps the Pi, setting up Tailscale in the process. Intended to be run after
 
 ## Usage ##
 
+Tested with NodeJS 22, but it should run fine in other versions. After cloning the repo, `cd` into the folder and run:
+
+```
+npx rpi-setup
+```
+
 ## Options ##
 
 ### --dry-run ###
