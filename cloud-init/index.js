@@ -18,7 +18,7 @@ ${trimmed[1]}`
 
     console.log(output)
   } else {
-    fs.writeFile('./user-data', trimmed[0], (err) => {
+    fs.writeFile('./user-data', `${trimmed[0]}\n`, (err) => {
       if (err) {
 	throw 'Writing file "user-data" failed'
 
@@ -26,7 +26,7 @@ ${trimmed[1]}`
       }
     })
 
-    fs.writeFile('./network-config', trimmed[1], (err) => {
+    fs.writeFile('./network-config', `${trimmed[1]}\n`, (err) => {
       if (err) {
 	throw 'Writing file "network-config" failed'
 
