@@ -4,10 +4,15 @@ Bootstraps the Pi, setting up Tailscale in the process. Intended to be run after
 
 ## Usage ##
 
-Tested with NodeJS 22, but it should run fine in other versions. After cloning the repo, `cd` into the folder and run:
+You'll need:
+- [NodeJS 22](https://nodejs.org/en/download) (should work with other versions as well, but was tested with 22)
+- A [Tailscale authkey](https://login.tailscale.com/admin/settings/keys)
+
+After cloning the repo, `cd` into the newly-created folder and run:
 
 ```
-npx rpi-setup
+$ npm install
+$ npx rpi-setup
 ```
 
 ## Options ##
@@ -20,6 +25,17 @@ npx rpi-setup
 
 - Display what would be written
 - Defaults to true
+
+### --tailscale-auth-key ###
+
+```
+-T, --tailscale-auth-key
+```
+
+- Tailscale authorized key
+- Used to allow the Pi to connect to the tailnet
+- *Note:* the key can also be stored in the environment variable `TAILSCALE_AUTH_KEY`
+    - The environment variable overrides any key provided on the command line
 
 ### --hostname ###
 

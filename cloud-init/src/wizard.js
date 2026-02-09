@@ -5,6 +5,10 @@ import * as fs from 'node:fs'
 import { homedir } from 'node:os'
 import * as path from 'node:path'
 
+const getAuthKeyFromEnv = () => {
+  return process.env.TAILSCALE_AUTH_KEY || null
+}
+
 const validatePath = (input) => {
   if (input.startsWith('~/')) {
     input = path.join(homedir(), input.slice(2))
@@ -36,6 +40,14 @@ const options = [
     initial: true,
     active: 'yes',
     inactive: 'no',
+  },
+  {
+    type: getAuthKeyFromEnv() ? null : 'text',
+    name: 'tailscaleAuthKey',
+    parameter: '-T, --tailscale-auth-key <string>',
+    description: 'Tailscale auth key',
+    message: 'Enter your Tailscale authorization key:',
+    initial: '',
   },
   {
     type: 'text',
@@ -178,6 +190,10 @@ export async function wizard() {
    */
   if (cliInput['ssid'] !== undefined || cliInput['ssidPassword'] !== undefined) {
     cliInput['useWireless'] = true
+  }
+
+  if (getAuthKeyFromEnv()) {
+    cliInput['tailscaleAuthKey'] = getAuthKeyFromEnv()
   }
 
   prompts.override(cliInput)
