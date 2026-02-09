@@ -43,7 +43,7 @@ const mkTailscaleBlock = (hostname, exitNode, tailscaleAuthKey) => {
 runcmd:
   - [ "sh", "-c", "curl -fsSL https://tailscale.com/install.sh | sh" ]
   - [ "sh", "-c", "echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf && echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf && sudo sysctl -p /etc/sysctl.d/99-tailscale.conf" ]
-  - [ "tailscale", "up", "--authkey=${tailscaleAuthKey}", "${exitNode && "--activate-exit-node"}", "--hostname=${hostname}", "--ssh" ]
+  - [ "tailscale", "up", "--authkey=${tailscaleAuthKey}", "${exitNode ? "--activate-exit-node" : ""}", "--hostname=${hostname}", "--ssh" ]
   - [ "sh", "-c", "sudo hostnamectl hostname ${hostname}" ]`
 
   return runcmd
