@@ -44,6 +44,17 @@ const mkAuthorizedKeysBlock = (sshKey) => {
   return ssh_authorized_keys
 }
 
+const mkTailscaleBlock = (hostname, tailscaleAuthKey) => {
+  const runcmd = `
+runcmd:
+  - [ "sh", "-c", "curl -fsSL https://tailscale.com/install.sh | sh" ]
+  - [ "sh", "-c", "echo 'net.ipv4.ip_forward = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf && echo 'net.ipv6.conf.all.forwarding = 1' | sudo tee -a /etc/sysctl.d/99-tailscale.conf && sudo sysctl -p /etc/sysctl.d/99-tailscale.conf" ]
+  - [ "tailscale", "up", "--authkey=${tailscaleAuthKey}", "--hostname=${hostname}", "--ssh" ]
+  - [ "sh", "-c", "sudo hostnamectl hostname ${hostname}" ]`
+
+  return runcmd
+}
+
 const mkWirelessBlock = (useStatic, useWireless, wirelessIP, router, nameservers, ssid, ssidPassword) => {
   let useDHCP
   let staticBlock
@@ -110,6 +121,7 @@ const mkEthernetBlock = (useStatic, ethernetIP, router, nameservers) => {
 const generate = (options) => {
   const {
     dryRun,
+    tailscaleAuthKey,
     hostname,
     timeZone,
     user,
@@ -141,7 +153,9 @@ users:
 
 enable_ssh: true
 ssh_pwauth: false
-disable_root: true`
+disable_root: true
+
+${mkTailscaleBlock(hostname, tailscaleAuthKey)}`
   const networkConfigBody = `
 network:
   version: 2
