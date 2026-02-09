@@ -58,6 +58,14 @@ const options = [
     initial: 'raspberrypi',
   },
   {
+    type: 'toggle',
+    name: 'exitNode',
+    message: 'Should this Pi be an exit node?',
+    initial: false,
+    active: 'yes',
+    inactive: 'no',
+  },
+  {
     type: 'autocomplete',
     name: 'timeZone',
     parameter: '-Z, --time-zone <string>',
