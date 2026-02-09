@@ -1,4 +1,15 @@
 import { encrypt } from 'unixcrypt'
+import * as fs from 'node:fs'
+import { homedir } from 'node:os'
+import * as path from 'node:path'
+
+const mkAbsolutePath = (input) => {
+  if (input.startsWith('~/')) {
+    input = path.join(homedir(), input.slice(2))
+  }
+
+  return input
+}
 
 const mkPasswordBlock = (userPassword) => {
   const lock_passwd = false
@@ -12,18 +23,23 @@ const mkPasswordBlock = (userPassword) => {
     return password
   } else {
     const password = `
-    lock_passwd: ${lock_passwd}
-`
+    lock_passwd: ${lock_passwd}`
 
     return password
   }
 }
 
 const mkAuthorizedKeysBlock = (sshKey) => {
-  const key = sshKey // TODO: Read the file
+  const data = fs.readFileSync(mkAbsolutePath(sshKey), 'utf8', (err, data) => {
+    if (err) {
+      throw err
+    }
+
+    return data
+  })
   const ssh_authorized_keys = `
     ssh_authorized_keys:
-      - ${key}`
+      - ${data}`
 
   return ssh_authorized_keys
 }
