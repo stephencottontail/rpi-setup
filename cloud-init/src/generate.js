@@ -147,13 +147,11 @@ network:
   version: 2
   ${mkWirelessBlock(useStatic, useWireless, wirelessIP, router, nameservers, ssid, ssidPassword)}
   ${mkEthernetBlock(useStatic, ethernetIP, router, nameservers)}`
-  const output = `
-${userdataHeader}
-${userdataBody}
-===
-${networkConfigBody}`
 
-  return output
+  return [
+    `${userdataHeader}\n${userdataBody}`,
+    `${networkConfigBody}`
+  ]
 }
 
 export default generate
